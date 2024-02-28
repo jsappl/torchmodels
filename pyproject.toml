@@ -1,0 +1,44 @@
+[project]
+name = "torchmodels"
+version = "0.0.0"
+description = "A collection of modular reusable PyTorch models."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Johannes Sappl", email = "johannes.sappl@datalabhell.at"},
+]
+
+[project.urls]
+Repository = "https://github.com/jsappl/torchmodels/"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[tool.ruff]
+extend-exclude = ["__init__.py"]
+ignore = [
+    # Google docstring convention
+    "D203", "D204", "D213", "D215", "D400", "D404", "D406", "D407", "D408", "D409", "D413",
+]
+line-length = 120
+select = ["ARG", "B", "D", "E", "F", "I", "N", "W"]
+target-version = "py311"
+
+[tool.ruff.format]
+exclude = ["*"]
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.yapf]
+based_on_style = "facebook"
+dedent_closing_brackets = false
+split_before_first_argument = true
+column_limit = 120
+blank_line_before_nested_class_or_def = true
+split_before_named_assigns = false
