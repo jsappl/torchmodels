@@ -1,1 +1,1 @@
-from mlp import MultilayerPerceptron
+from .mlp import MultilayerPerceptron
