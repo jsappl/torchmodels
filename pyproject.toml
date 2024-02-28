@@ -8,6 +8,9 @@ license = {file = "LICENSE"}
 authors = [
     {name = "Johannes Sappl", email = "johannes.sappl@datalabhell.at"},
 ]
+dependencies = [
+    "torch>=2.2.1",
+]
 
 [project.urls]
 Repository = "https://github.com/jsappl/torchmodels/"
