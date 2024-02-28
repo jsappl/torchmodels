@@ -19,6 +19,12 @@ Repository = "https://github.com/jsappl/torchmodels/"
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+]
+
 [tool.pdm]
 distribution = true
 
@@ -26,6 +32,15 @@ distribution = true
 test = [
     "pytest>=8.0.2",
     "pytest-cov>=4.1.0",
+]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--no-header",
+    "--import-mode=importlib",
+    "--cov=torchmodels/",
+    "--cov-report=term-missing:skip-covered",
+    "--disable-warnings",
 ]
 
 [tool.ruff]
