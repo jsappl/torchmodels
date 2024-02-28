@@ -1,10 +1,10 @@
-name: Python Tests
+name: Tests
 
 on: [push]
 
 jobs:
   test:
-    name: pytest
+    name: python
     runs-on: ubuntu-latest
     strategy:
       matrix:
