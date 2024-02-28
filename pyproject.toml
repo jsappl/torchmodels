@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = {file = "LICENSE"}
 authors = [
+    {name = "Stephan Antholzer", email = "stephan.antholzer@datalabhell.at"},
     {name = "Johannes Sappl", email = "johannes.sappl@datalabhell.at"},
 ]
 dependencies = [
