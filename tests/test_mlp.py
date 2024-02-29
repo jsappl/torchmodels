@@ -4,7 +4,7 @@ import pytest
 import torch
 import torch.nn as nn
 
-from torchmodels.mlp import MultilayerPerceptron
+from torchmodels import MultilayerPerceptron
 
 
 @pytest.fixture
