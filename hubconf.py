@@ -11,7 +11,7 @@ dependencies = ["torch"]
 
 
 def multilayer_perceptron(neurons: list[int]) -> "nn.Module":
-    """Load the multilayer perceptron model architecure.
+    """Load the multilayer perceptron model architecture.
 
     Args:
         neurons: Specify the number of neurons for each layer.
