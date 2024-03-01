@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 
 from torchmodels import UNet
+from .utils import modeloptimizationtest
 
 SIZE: int = 32
 
@@ -54,3 +55,10 @@ def test_double_convolution(model):
 
     assert output.shape == (1, out_channels, 8, 8)
     assert torch.min(output).item() >= 0
+
+
+def test_optimization(model):
+    """Test optimization."""
+    input_ = torch.randn(1, 1, SIZE, SIZE)
+    output = torch.rand(1, 1, SIZE, SIZE)
+    modeloptimizationtest(model, input_, output)

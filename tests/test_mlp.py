@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 
 from torchmodels import MultilayerPerceptron
+from .utils import modeloptimizationtest
 
 
 @pytest.fixture
@@ -39,3 +40,10 @@ def test_layers(model):
         if isinstance(layer, nn.Linear):
             assert layer.in_features == expected_layers[index].in_features
             assert layer.out_features == expected_layers[index].out_features
+
+
+def test_optimization(model):
+    """Test optimization."""
+    input_ = torch.randn(1, 2)
+    output = torch.rand(1, 1)
+    modeloptimizationtest(model, input_, output)
