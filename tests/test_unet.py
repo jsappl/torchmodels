@@ -16,9 +16,10 @@ def model():
     return UNet(in_channels=1, out_channels=1, features=2)
 
 
-def test_forward_pass(model):
+def test_forward_pass(model, device):
     """Test the forward pass of the UNet model."""
-    input_ = torch.randn(1, 1, SIZE, SIZE)
+    model = model.to(device)
+    input_ = torch.randn(1, 1, SIZE, SIZE, device=device)
     output = model.forward(input_)
 
     assert isinstance(output, torch.Tensor)
@@ -44,21 +45,22 @@ def test_layers(model):
         assert hasattr(model, f"doubleconv{index}")
 
 
-def test_double_convolution(model):
+def test_double_convolution(model, device):
     """Test the double convolution layer."""
     in_channels = 3
     out_channels = 1
-    doubleconv = model._double_convolution(in_channels, out_channels)
+    doubleconv = model._double_convolution(in_channels, out_channels).to(device)
 
-    input_ = torch.randn(1, in_channels, 8, 8)
+    input_ = torch.randn(1, in_channels, 8, 8, device=device)
     output = doubleconv(input_)
 
     assert output.shape == (1, out_channels, 8, 8)
     assert torch.min(output).item() >= 0
 
 
-def test_optimization(model):
+def test_optimization(model, device):
     """Test optimization."""
-    input_ = torch.randn(1, 1, SIZE, SIZE)
-    output = torch.rand(1, 1, SIZE, SIZE)
+    input_ = torch.randn(1, 1, SIZE, SIZE, device=device)
+    output = torch.rand(1, 1, SIZE, SIZE, device=device)
+    model = model.to(device)
     modeloptimizationtest(model, input_, output)

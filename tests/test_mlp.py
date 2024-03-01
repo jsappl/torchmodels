@@ -15,9 +15,10 @@ def model():
     return MultilayerPerceptron(neurons)
 
 
-def test_forward_pass(model):
+def test_forward_pass(model, device):
     """Test the forward pass of the MultilayerPerceptron."""
-    input_tensor = torch.randn((4, 2))
+    model = model.to(device)
+    input_tensor = torch.randn((4, 2), device=device)
     output = model.forward(input_tensor)
 
     assert isinstance(output, torch.Tensor)
@@ -42,8 +43,9 @@ def test_layers(model):
             assert layer.out_features == expected_layers[index].out_features
 
 
-def test_optimization(model):
+def test_optimization(model, device):
     """Test optimization."""
-    input_ = torch.randn(1, 2)
-    output = torch.rand(1, 1)
-    modeloptimizationtest(model, input_, output)
+    input_ = torch.randn(4, 2, device=device)
+    output = torch.rand(4, 1, device=device)
+    model = model.to(device)
+    modeloptimizationtest(model, input_, output, 1e-3, 1e-6)
