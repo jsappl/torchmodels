@@ -1,38 +1,42 @@
-"""Testing utilities."""
+"""Utilities to be reused across tests."""
+
 import torch
-from torch.nn import MSELoss
+import torch.nn as nn
 
-EPS = 1e-6
+EPS: float = 1e-6
 
 
-def modeloptimizationtest(model, inputsample, outputsample, tol: float = 1e-3, stol: float = 1e-3):
-    """Test model optimization.
+def model_optimization_test(
+        model: nn.Module, input_: torch.Tensor, target: torch.Tensor, tol: float = 1e-3, single_tol: float = 1e-3):
+    """Test optimizing the model parameters.
 
     Args:
-        model: the model should be `torch.nn.Module` or a superclass of it
-        inputsample: one sample of the model inputs output will be generated using `model(inputsample)`
-        outputsample: one sample for the outputs
-        tol: mean norm of parameters should change at least this much
-        stol: norm of each single parameter tensor should change at least this much
+        model: An instantiated PyTorch model.
+        input_: A input sample to be passed to the `model`.
+        target: An expected output sample.
+        tol: Mean norm of parameters should change at least this much.
+        single_tol: Norm of each single parameter tensor should change at least this much.
     """
-    old_parameters = [p.detach().clone() for p in model.parameters()]
-    opt = torch.optim.SGD(model.parameters(), lr=10)
-    opt.zero_grad()
-    output = model(inputsample)
-    # MSELoss would still work if they have different shapes
-    assert output.size() == outputsample.size()
-    loss = MSELoss()(output, outputsample)
-    # if the loss is already 0 we can not optimize
+    old_parameters = [parameter.detach().clone() for parameter in model.parameters()]
+    optimizer = torch.optim.SGD(model.parameters(), lr=10)
+    optimizer.zero_grad()
+
+    output = model(input_)
+    assert output.size() == output.size()
+
+    loss = nn.MSELoss()(output, target)
     assert loss.item() > 0
     loss.backward()
-    # all parameters should have gradients
-    assert all([p.grad is not None for p in model.parameters()])
-    opt.step()
-    changes = [MSELoss()(pold, pnew) for (pold, pnew) in zip(old_parameters, model.parameters(), strict=True)]
-    # some should change
+
+    assert all([parameter.grad is not None for parameter in model.parameters()])
+    optimizer.step()
+    changes = [
+        nn.MSELoss()(parameter_old, parameter_new)
+        for (parameter_old, parameter_new) in zip(old_parameters, model.parameters(), strict=True)
+    ]
+
     assert sum(changes) / len(changes) > tol
-    # all with gradients should change
-    zero_grads = [torch.norm(p.grad).item() <= EPS for p in model.parameters()]
-    for (paramnorm, gradiszero) in zip(changes, zero_grads, strict=True):
-        if gradiszero:
-            assert paramnorm > stol
+    zero_grads = [torch.norm(parameter.grad).item() <= EPS for parameter in model.parameters()]
+    for (norm_parameter, grad_is_zero) in zip(changes, zero_grads, strict=True):
+        if grad_is_zero:
+            assert norm_parameter > single_tol

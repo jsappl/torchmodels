@@ -1,4 +1,5 @@
-"""Configure/customize pytest."""
+"""Provide pytest fixtures for all tests."""
+
 import pytest
 import torch
 
@@ -14,5 +15,5 @@ def pytest_generate_tests(metafunc):
 
 @pytest.fixture
 def device(request):
-    """Pytorch devices."""
+    """Set the PyTorch devices fixture."""
     return torch.device(request.param)

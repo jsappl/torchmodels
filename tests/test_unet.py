@@ -5,7 +5,8 @@ import torch
 import torch.nn as nn
 
 from torchmodels import UNet
-from .utils import modeloptimizationtest
+
+from .utils import model_optimization_test
 
 SIZE: int = 32
 
@@ -63,4 +64,4 @@ def test_optimization(model, device):
     input_ = torch.randn(1, 1, SIZE, SIZE, device=device)
     output = torch.rand(1, 1, SIZE, SIZE, device=device)
     model = model.to(device)
-    modeloptimizationtest(model, input_, output)
+    model_optimization_test(model, input_, output)

@@ -5,7 +5,8 @@ import torch
 import torch.nn as nn
 
 from torchmodels import MultilayerPerceptron
-from .utils import modeloptimizationtest
+
+from .utils import model_optimization_test
 
 
 @pytest.fixture
@@ -48,4 +49,4 @@ def test_optimization(model, device):
     input_ = torch.randn(4, 2, device=device)
     output = torch.rand(4, 1, device=device)
     model = model.to(device)
-    modeloptimizationtest(model, input_, output, 1e-3, 1e-6)
+    model_optimization_test(model, input_, output, 1e-3, 1e-6)
