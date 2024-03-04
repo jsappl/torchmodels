@@ -1,6 +1,6 @@
 [project]
 name = "torchmodels"
-version = "0.0.0"
+version = "0.1.0"
 description = "A collection of modular reusable PyTorch models."
 readme = "README.md"
 requires-python = ">=3.11"
